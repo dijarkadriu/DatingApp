@@ -9,6 +9,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.OpenApi.Models;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using DatingApp.API.Helpers;
 
 namespace DatingApp.API
 {
@@ -41,6 +46,10 @@ namespace DatingApp.API
                          ValidateAudience = false
                      };
                  });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +59,28 @@ namespace DatingApp.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler(builder =>
+                   {
+                       builder.Run(async context =>
+                       {
+                           context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                           var error = context.Features.Get<IExceptionHandlerFeature>();
+                           if (error != null)
+                           {
+                               context.Response.AddApplicationError(error.Error.Message);
+                               await context.Response.WriteAsync(error.Error.Message);
+                           }
+                       });
+                   });
+            }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             // app.UseHttpsRedirection();
 
