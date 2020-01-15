@@ -2,22 +2,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { MemberListComponent } from '../members/member-list/member-list.component';
 
+import { MemberDetailComponent } from './member-detail.component';
 
-describe('MemberListComponent', () => {
-  let component: MemberListComponent;
-  let fixture: ComponentFixture<MemberListComponent>;
+describe('MemberDetailComponent', () => {
+  let component: MemberDetailComponent;
+  let fixture: ComponentFixture<MemberDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MemberListComponent]
+      declarations: [ MemberDetailComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MemberListComponent);
+    fixture = TestBed.createComponent(MemberDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
