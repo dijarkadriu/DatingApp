@@ -1,13 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DatingApp.API.DTOs
 {
     public class UserForListDTO
     {
-        public UserForListDTO()
-        {
 
-        }
         public int Id { get; set; }
         public string Username { get; set; }
         public string Gender { get; set; }

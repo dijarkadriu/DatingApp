@@ -6,27 +6,8 @@ namespace DatingApp.API.DTOs
 {
     public class UserForDetailedDTO
     {
-        public UserForDetailedDTO()
-        {
 
-        }
-        public UserForDetailedDTO(int id, string username, string gender, int age, string knownAs, DateTime created, DateTime lastActive, string city, string country, string introduction, string lookingFor, string interests, string photoUrl)
-        {
-            this.Id = id;
-            this.Username = username;
-            this.Gender = gender;
-            this.Age = age;
-            this.KnownAs = knownAs;
-            this.Created = created;
-            this.LastActive = lastActive;
-            this.City = city;
-            this.Country = country;
-            this.Introduction = introduction;
-            this.LookingFor = lookingFor;
-            this.Interests = interests;
-            this.PhotoUrl = photoUrl;
 
-        }
         public int Id { get; set; }
         public string Username { get; set; }
         public string Gender { get; set; }

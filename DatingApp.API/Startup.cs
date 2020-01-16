@@ -8,13 +8,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.OpenApi.Models;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using DatingApp.API.Helpers;
 using AutoMapper;
+using Microsoft.OpenApi.Models;
 
 namespace DatingApp.API
 {
@@ -39,22 +38,24 @@ namespace DatingApp.API
             services.AddTransient<Seed>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                 .AddJwtBearer(options =>
-                 {
-                     options.TokenValidationParameters = new TokenValidationParameters
-                     {
-                         ValidateIssuerSigningKey = true,
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                             .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                         ValidateIssuer = false,
-                         ValidateAudience = false
-                     };
-                 });
+
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-            });
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                     .AddJwtBearer(options =>
+                     {
+                         options.TokenValidationParameters = new TokenValidationParameters
+                         {
+                             ValidateIssuerSigningKey = true,
+                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                             .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                             ValidateIssuer = false,
+                             ValidateAudience = false
+                         };
+                     });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,10 +83,14 @@ namespace DatingApp.API
                    });
             }
             app.UseSwagger();
+
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+
 
             // app.UseHttpsRedirection();
 
